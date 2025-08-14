@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Namma Uzhavan Nanban - Our Farmer's Friend</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-seedling"></i>
+                    <h1>Namma Uzhavan Nanban</h1>
+                </div>
+                <p class="subtitle">Our Farmer's Friend - AI-Powered Agricultural Assistant</p>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Navigation Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="query">
+                    <i class="fas fa-comments"></i>
+                    Text Query
+                </button>
+                <button class="tab-btn" data-tab="image">
+                    <i class="fas fa-camera"></i>
+                    Image Diagnosis
+                </button>
+            </div>
+
+            <!-- Query Tab -->
+            <div class="tab-content active" id="query-tab">
+                <div class="query-section">
+                    <h2><i class="fas fa-robot"></i> AI Query Assistant</h2>
+                    <p class="description">Ask questions about rice farming in Tamil or English. The system automatically uses the best available AI model based on your connectivity.</p>
+                    
+                    <div class="input-group">
+                        <textarea 
+                            id="main-query" 
+                            placeholder="உங்கள் கேள்வியை இங்கே தமிழில் அல்லது ஆங்கிலத்தில் கேள்வி கேள்வி... (Ask your question here in Tamil or English...)"
+                            rows="4"
+                        ></textarea>
+                        <button id="submit-query" class="submit-btn">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit Query
+                        </button>
+                    </div>
+
+                    <div id="query-response" class="response-area hidden">
+                        <div class="response-header">
+                            <i class="fas fa-robot"></i>
+                            <span class="response-source">AI Response</span>
+                        </div>
+                        <div id="query-answer" class="response-content"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image Tab -->
+            <div class="tab-content" id="image-tab">
+                <div class="query-section">
+                    <h2><i class="fas fa-microscope"></i> Image Disease Diagnosis</h2>
+                    <p class="description">Upload an image of your rice crop to identify diseases and get treatment recommendations.</p>
+                    
+                    <div class="image-upload-section">
+                        <div class="upload-area" id="upload-area">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <p>Click to upload or drag & drop</p>
+                            <p class="upload-hint">Supports: JPG, PNG, JPEG</p>
+                            <input type="file" id="image-input" accept="image/*" hidden>
+                        </div>
+                        
+                        <div class="image-preview hidden" id="image-preview">
+                            <img id="preview-img" alt="Preview">
+                            <button class="remove-image" id="remove-image">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button id="submit-image" class="submit-btn" disabled>
+                        <i class="fas fa-search"></i>
+                        Analyze Image
+                    </button>
+
+                    <div id="image-response" class="response-area hidden">
+                        <div class="response-header">
+                            <i class="fas fa-eye"></i>
+                            <span class="response-source">Vision AI Diagnosis</span>
+                        </div>
+                        <div id="image-answer" class="response-content"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Loading Overlay -->
+        <div id="loading-overlay" class="loading-overlay hidden">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Processing your request...</p>
+            </div>
+        </div>
+
+        <!-- Status Indicator -->
+        <div class="status-indicator" id="status-indicator">
+            <div class="status-content">
+                <i class="fas fa-circle" id="status-icon"></i>
+                <span id="status-text">Checking connectivity...</span>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Namma Uzhavan Nanban. Empowering farmers with AI technology.</p>
+        </footer>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
