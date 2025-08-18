@@ -1,7 +1,6 @@
-Got it ✅
-Here’s your **complete `README.md` file** — all sections merged into a single clean Markdown format ready for GitHub or submission.
 
-````markdown
+
+
 # Namma Uzhavan Nanban (நம்ம உழவன் நண்பன்) - Our Farmer's Friend
 
 **A Hybrid AI Assistant for Paddy Farmers in Tamil Nadu**
@@ -71,7 +70,7 @@ The app’s core principle is **resilience**: it provides essential services off
 2. Verify installation:  
    ```bash
    ollama --version
-````
+
 
 ---
 
@@ -189,3 +188,4 @@ Open: [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 Do you want me to **make this README shorter** (like a polished GitHub README with badges, sections, and minimal hackathon notes) or **keep it full-length** as a detailed hackathon submission document?
 ```
+
