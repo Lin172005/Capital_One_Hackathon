@@ -1,129 +1,162 @@
+Namma Uzhavan Nanban (நம்ம உழவன் நண்பன்) - Our Farmer's Friend
+A Hybrid AI Assistant for Paddy Farmers in Tamil Nadu
 
+Video Demo Link: [INSERT YOUR YOUTUBE/LOOM VIDEO LINK HERE]
 
-# Capital One Launchpad: Tamil Nadu Agri-Expert 🚀
+🌾 The Problem
+In Tamil Nadu, paddy farming is the backbone of our agriculture. However, farmers in remote areas often face a critical challenge: limited or no internet access. This digital divide cuts them off from the vital, time-sensitive information they need to protect their crops and get a fair price for their harvest, which can lead to significant financial losses.
 
-This project is our submission for the Capital One Launchpad hackathon. We are building a "Digital Smart Farmer" to help farmers in Tamil Nadu.
+💡 Our Solution
+Namma Uzhavan Nanban is an intelligent, bilingual AI assistant designed to solve this problem. It operates in a hybrid online/offline mode, ensuring that farmers have a reliable tool in their hands, whether they are in the field or at home with a connection. The application's core principle is resilience, providing essential services even when completely offline and intelligently enhancing its capabilities when online.
 
-**Current MVP Goal:** The "Rice Lifeline" Agent. An AI assistant that helps a rice farmer identify a crop disease, suggests a low-cost treatment, and finds a micro-loan to finance it.
+✨ Key Features
+Hybrid AI System: Seamlessly switches between powerful online models (Google Gemini) and a 100% local AI (Ollama Phi-3) based on internet connectivity.
 
-## 💻 Getting Started: Local Setup
+Fully Offline Disease Diagnosis: Uses a custom-trained PyTorch model to accurately identify 10 different paddy diseases from an image, providing a detailed remedy using the local AI—no internet required.
 
-Follow these steps to get the project running on your local machine.
+Automated Daily Price Updates: Since no official API exists, we built an automated pipeline that runs on startup:
 
-### 1\. Clone the Repository
+It downloads the latest market prices from a web source as a PDF.
 
-Open your terminal or command prompt and clone the project.
+It ingests this data into a dedicated, searchable market_price_db.
 
-```bash
-git clone https://github.com/Lin172005/Capital_One_Hackathon.git
-cd Capital_One_Hackathon
-```
+Dual-Database RAG System: For online queries, the app intelligently routes questions. It pulls price data from the fresh market_price_db and general knowledge from the main rice_knowledge_base to provide comprehensive, synthesized answers.
 
-### 2\. Create and Activate Virtual Environment
+Live Weather Integration: Connects to a live weather API to provide current conditions and forecasts.
 
-This keeps our project's dependencies isolated.
+🚧 Limitations & Future Work
+Given the time constraints of a hackathon, we made the following strategic decisions:
 
-```bash
-# Create the virtual environment
+Narrow Focus: We concentrated exclusively on paddy farmers in Tamil Nadu to create a deep and relevant tool.
+
+Data Availability: Our knowledge base was built from a limited set of publicly available agricultural PDFs. The next step is to collaborate with agricultural institutions to ingest more comprehensive and verified data.
+
+🛠️ Technical Architecture
+Backend: Python, FastAPI
+
+Frontend: HTML, CSS, JavaScript
+
+Online LLM: Google Gemini 1.5 Flash
+
+Offline LLM: Ollama with phi3
+
+Disease Model: Custom-trained PyTorch model (.pt)
+
+Vector Databases: ChromaDB (for both the main KB and the daily price DB)
+
+Automated Scraper: Python with Selenium
+
+⚙️ How to Install and Run
+Please follow these steps carefully to set up and run the project.
+
+1. Prerequisites
+Python 3.10+
+
+Google Chrome: Required for the automated data pipeline.
+
+Ollama Desktop: The local AI server. See installation instructions below.
+
+2. Install Ollama Desktop
+Ollama powers the application's offline capabilities. It must be installed and running in the background.
+
+Download: Go to the official website: ollama.com
+
+Install: Download and run the installer for your operating system (Windows, macOS, or Linux). Follow the on-screen instructions.
+
+Verify: After installation, the Ollama application should be running. You can verify this by looking for the Ollama icon in your system tray or by opening a new terminal and running:
+
+Bash
+
+ollama --version
+3. Set Up the Local AI Model
+With Ollama running, open your terminal and pull the phi3 model.
+
+Bash
+
+ollama pull phi3
+4. Clone the Repository and Install Dependencies
+Bash
+
+# Clone this project repository
+git clone [YOUR_REPOSITORY_URL]
+cd [PROJECT_FOLDER_NAME]
+
+# Create and activate a Python virtual environment
 python -m venv venv
-
-# Activate it (you must do this every time you work on the project)
 # On Windows:
-.\venv\Scripts\activate
+venv\Scripts\activate
 # On macOS/Linux:
-source venv/bin/activate
-```
+# source venv/bin/activate
 
-### 3\. Install Dependencies
-
-This command installs all the necessary Python packages listed in `requirements.txt`.
-
-```bash
+# Install all required Python packages
 pip install -r requirements.txt
-```
+5. Set Up Environment Variables
+In the project's root folder, create a new file named .env.
 
-### 4\. Set Up Your Environment Variables
+Add your Google Gemini API key to this file:
 
-We need to provide the secret API key to the application.
+GOOGLE_API_KEY="your_google_api_key_here"
+6. Build the Main Knowledge Base
+Before running the app for the first time, you must build the main knowledge base from the provided agricultural documents.
 
-1.  Create a new file in the main project folder named `.env`.
+Bash
 
-2.  Open the `.env` file and add the following line, replacing `YOUR_KEY_HERE` with the actual Google AI API key. (Ask the project lead for the key if you don't have it).
+python src/scripts/ingest.py
+Note: You only need to run this script once. The daily market price database is created and updated automatically every time the main application starts.
 
-    ```
-    GOOGLE_API_KEY="YOUR_KEY_HERE"
-    ```
+7. Run the Application
+You are now ready to launch the server.
 
-### 5\. Verify Your Setup
+Bash
 
-Run the prototype script to make sure everything is working correctly.
+uvicorn main:app --reload
+The first time you run this command, it will automatically trigger the data pipeline. Once the startup process is complete, open your web browser and navigate to http://127.0.0.1:8000.
 
-```bash
-python src/scripts/rag_prototype.py
-```
+🧪 How to Test the Features (Example Questions)
+Follow this guide to test all core functionalities.
 
-You should see output detailing the ingestion, retrieval, and final generated answer without any errors.
+1. Test the OFFLINE Mode 🔴
+Action: Disconnect your computer from the internet. The status indicator in the app should turn red.
 
------
+Offline Text Query:
 
-## 🌿 Development Workflow: How to Contribute
+Go to the "Query" tab.
 
-To keep our `main` branch stable, all new work must be done on a separate branch.
+Ask: How do you manage bacterial leaf blight? (or in Tamil: பாக்டீரியா இலை கருகல் நோயை எவ்வாறு கட்டுப்படுத்துவது?)
 
-### 1\. Get the Latest Code
+Expected Result: A detailed remedy from the local phi3 model.
 
-Before starting any new work, always make sure your `main` branch is up-to-date.
+Offline Image Diagnosis:
 
-```bash
-git checkout main
-git pull origin main
-```
+Go to the "Image Diagnosis" tab.
 
-### 2\. Create a New Branch
+Action: Upload an image of a diseased paddy leaf.
 
-Create a new branch for your feature or fix. Please follow our naming convention.
+Expected Result: The app uses the local PyTorch model to identify the disease and phi3 to generate a treatment plan.
 
-**Branch Naming Convention:**
+2. Test the ONLINE Mode 🟢
+Action: Reconnect your computer to the internet. The status indicator should turn green.
 
-  * For new features: `feature/<short-description>`
-  * For bug fixes: `fix/<short-description>`
+Online Price Query:
 
-<!-- end list -->
+Go to the "Query" tab.
 
-```bash
-# Example for a new feature
-git checkout -b feature/process-pdf-data
+Ask: What is the price of BPT rice in Salem today? (or in Tamil: சேலத்தில் இன்று பிபிடி அரிசியின் விலை என்ன?)
 
-# Example for a bug fix
-git checkout -b fix/api-error-handling
-```
+Expected Result: The app provides a current price from the auto-updated market_price_db.
 
-### 3\. Make Your Changes
+Online Hybrid Image Diagnosis:
 
-Work on your code in this new branch. Once you have made progress, commit your changes with a clear message.
+Go to the "Image Diagnosis" tab.
 
-```bash
-# Stage your changes
-git add .
+Action: Upload another diseased leaf image.
 
-# Commit them
-git commit -m "feat: Add function to read text from PDFs"
-```
+Expected Result: The app uses the local PyTorch model for the prediction and the online Gemini model to write a high-quality answer in Tamil.
 
-### 4\. Push Your Branch to GitHub
+Live Weather Query:
 
-Share your branch with the team by pushing it to the remote repository.
+Go to the "Query" tab.
 
-```bash
-# Use the same branch name you created
-git push origin feature/process-pdf-data
-```
+Ask: What is the weather in Chennai? (or in Tamil: சென்னையில் வானிலை எப்படி உள்ளது?)
 
-### 5\. Create a Pull Request (PR)
-
-Go to the project's GitHub page. You will see a prompt to create a **Pull Request** from your new branch.
-
-1.  Click the "Compare & pull request" button.
-2.  Give your PR a clear title and a brief description of the changes.
-3.  Assign another team member to review your code.
-4.  Once reviewed and approved, the PR can be merged into the `main` branch.
+Expected Result: The app will fetch and display live weather data.
