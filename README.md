@@ -1,9 +1,7 @@
-Of course. Here is the complete guide, including all sections, formatted as a single markdown file for your `README.md`.
 
------
 
-````markdown
-# Namma Uzhavan Nanban (நம்ம உழவன் நண்பன்) - Our Farmer's Friend
+
+##  **Namma Uzhavan Nanban (நம்ம உழவன் நண்பன்) - Our Farmer's Friend**
 
 **A Hybrid AI Assistant for Paddy Farmers in Tamil Nadu**
 
@@ -11,17 +9,17 @@ Of course. Here is the complete guide, including all sections, formatted as a si
 
 ---
 
-## 🌾 The Problem
+## **🌾 The Problem**
 
 In Tamil Nadu, paddy farming is the backbone of our agriculture. However, farmers in remote areas often face a critical challenge: limited or no internet access. This **digital divide** cuts them off from the vital, time-sensitive information they need to protect their crops and get a fair price for their harvest, which can lead to significant financial losses.
 
-## 💡 Our Solution
+## **💡 Our Solution**
 
 **Namma Uzhavan Nanban** is an intelligent, bilingual AI assistant designed to solve this problem. It operates in a **hybrid online/offline mode**, ensuring that farmers have a reliable tool in their hands, whether they are in the field or at home with a connection. The application's core principle is **resilience**, providing essential services even when completely offline and intelligently enhancing its capabilities when online.
 
 ---
 
-## ✨ Key Features
+## **✨ Key Features**
 
 * **Hybrid AI System:** Seamlessly switches between powerful online models (Google Gemini) and a 100% local AI (Ollama Phi-3) based on internet connectivity.
 * **Fully Offline Disease Diagnosis:** Uses a custom-trained **PyTorch model** to accurately identify 10 different paddy diseases from an image, providing a detailed remedy using the local AI—no internet required.
@@ -33,7 +31,7 @@ In Tamil Nadu, paddy farming is the backbone of our agriculture. However, farmer
 
 ---
 
-## 🚧 Limitations & Future Work
+## **🚧 Limitations & Future Work**
 
 Given the time constraints of a hackathon, we made the following strategic decisions:
 * **Narrow Focus:** We concentrated exclusively on **paddy farmers in Tamil Nadu** to create a deep and relevant tool.
@@ -108,19 +106,16 @@ pip install -r requirements.txt
     GOOGLE_API_KEY="your_google_api_key_here"
     ```
 
-### **6. Build the Main Knowledge Base**
-
-Before running the app for the first time, you must build the main knowledge base from the provided agricultural documents.
-
-```bash
-python src/scripts/ingest.py
-```
 
 ***Note:** You only need to run this script once. The daily market price database is created and updated automatically every time the main application starts.*
 
-### **7. Run the Application**
+### **6. Run the Application**
 
 You are now ready to launch the server.
+Run this first 
+```bash
+python main.py
+```
 
 ```bash
 uvicorn main:app --reload
@@ -176,3 +171,4 @@ Follow this guide to test all core functionalities.
 
 ```
 ```
+
