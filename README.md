@@ -5,7 +5,7 @@
 
 **A Hybrid AI Assistant for Paddy Farmers in Tamil Nadu**
 
-**Video Demo Link:** [**INSERT YOUR YOUTUBE/LOOM VIDEO LINK HERE**]
+**Video Demo Link:** [https://youtu.be/3P00RMJ6oiA]**
 
 ---
 
@@ -171,5 +171,6 @@ Follow this guide to test all core functionalities.
 
 ```
 ```
+
 
 
