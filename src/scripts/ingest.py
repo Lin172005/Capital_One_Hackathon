@@ -1,12 +1,11 @@
+# ingest.py (Corrected with Batching)
 import os
 import chromadb
 from pypdf import PdfReader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 # --- Constants ---
-# Path to the directory where you've saved your downloaded documents
 DATA_PATH = "data/raw"
-# ChromaDB collection name
 COLLECTION_NAME = "rice_knowledge_base"
 
 
@@ -16,7 +15,6 @@ def load_documents(directory_path):
     """
     print(f"Loading documents from {directory_path}...")
     documents = []
-    # Use os.walk to go through all subdirectories
     for root, _, files in os.walk(directory_path):
         for filename in files:
             file_path = os.path.join(root, filename)
@@ -58,13 +56,12 @@ def split_text_into_chunks(documents):
 
 def store_chunks_in_chromadb(chunks):
     """
-    Stores the text chunks into the ChromaDB vector store.
+    Stores the text chunks into the ChromaDB vector store in batches.
     """
     print("Storing chunks into ChromaDB...")
-    # NEW CODE
     client = chromadb.PersistentClient(path="db")
 
-    # Clear out the old collection if it exists, to ensure a fresh start
+    # Clear out the old collection
     try:
         if COLLECTION_NAME in [c.name for c in client.list_collections()]:
             client.delete_collection(name=COLLECTION_NAME)
@@ -74,17 +71,29 @@ def store_chunks_in_chromadb(chunks):
 
     collection = client.get_or_create_collection(name=COLLECTION_NAME)
 
-    documents_to_add = [chunk.page_content for chunk in chunks]
-    metadatas_to_add = [chunk.metadata for chunk in chunks]
-    ids_to_add = [f"{chunk.metadata['source']}_{i}" for i, chunk in enumerate(chunks)]
+    # --- THIS IS THE NEW BATCHING LOGIC ---
+    batch_size = 4000  # A safe batch size, well below the 5461 limit
+    total_chunks = len(chunks)
 
-    collection.add(
-        documents=documents_to_add,
-        metadatas=metadatas_to_add,
-        ids=ids_to_add
-    )
-    print("Successfully stored chunks in ChromaDB.")
+    for i in range(0, total_chunks, batch_size):
+        batch_chunks = chunks[i : i + batch_size]
+        
+        # Prepare data for the current batch
+        documents_to_add = [chunk.page_content for chunk in batch_chunks]
+        metadatas_to_add = [chunk.metadata for chunk in batch_chunks]
+        # Ensure unique IDs for each chunk in the batch
+        ids_to_add = [f"{chunk.metadata['source']}_{i+j}" for j, chunk in enumerate(batch_chunks)]
+
+        print(f"  - Adding batch {i//batch_size + 1}/{(total_chunks//batch_size) + 1} ({len(batch_chunks)} chunks)...")
+        collection.add(
+            documents=documents_to_add,
+            metadatas=metadatas_to_add,
+            ids=ids_to_add
+        )
+
+    print("\nSuccessfully stored all chunks in ChromaDB.")
     print(f"Total chunks in collection: {collection.count()}")
+
 
 def main():
     """
