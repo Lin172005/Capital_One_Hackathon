@@ -84,8 +84,8 @@ ollama pull phi3
 
 ```bash
 # Clone this project repository
-git clone [YOUR_REPOSITORY_URL]
-cd [PROJECT_FOLDER_NAME]
+git clone https://github.com/Lin172005/Capital_One_Hackathon.git
+cd Capital_One_Hackathon
 
 # Create and activate a Python virtual environment
 python -m venv venv
@@ -171,4 +171,5 @@ Follow this guide to test all core functionalities.
 
 ```
 ```
+
 
