@@ -105,11 +105,31 @@ pip install -r requirements.txt
     ```
     GOOGLE_API_KEY="your_google_api_key_here"
     ```
+3.The API Key is given in the INSTRUCTION Section of the HackerEarth Platform
 
 
-***Note:** You only need to run this script once. The daily market price database is created and updated automatically every time the main application starts.*
 
 ### **6. Run the Application**
+
+Before running the app for the first time, you must build the main knowledge base. This is a crucial one-time setup step.
+
+The ingest.py script performs the following critical tasks:
+
+*It reads all the PDF documents.
+
+*It breaks them down into thousands of small, manageable chunks of information.
+
+*It converts each chunk into a numerical representation (an embedding) that the AI can understand.
+
+*Finally, it stores all this information in a specialized local database (rice_knowledge_base).
+
+
+
+Run the ingest.py 
+```bash
+python src/scripts/ingest.py
+```
+***Note:** You only need to run this script once. The daily market price database is created and updated automatically every time the main application starts.*
 
 You are now ready to launch the server.
 Run this first 
@@ -171,6 +191,7 @@ Follow this guide to test all core functionalities.
 
 ```
 ```
+
 
 
 
